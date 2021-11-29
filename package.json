@@ -1,0 +1,23 @@
+{
+  "name": "devmode-2.0",
+  "version": "2.0.0",
+  "description": "Developer Mode. A \"splashscreen\" of sorts to help students focus on the task at hand. ",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scss": "node-sass -w style/scss -o style/css --output-style compressed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JEMX-mbou/devmode-2.0.git"
+  },
+  "author": "Jesse Malotaux <jemx@mboutrecht.nl>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JEMX-mbou/devmode-2.0/issues"
+  },
+  "homepage": "https://github.com/JEMX-mbou/devmode-2.0#readme",
+  "devDependencies": {
+    "node-sass": "^6.0.1"
+  }
+}

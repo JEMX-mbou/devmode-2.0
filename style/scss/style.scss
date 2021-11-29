@@ -1,0 +1,272 @@
+@import 'mixins';
+
+$cyan: #0ff;
+$magenta: #f0f;
+$yellow: #ff0;
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+  font-family: 'Cutive Mono', monospace;
+  color: #fff;
+  overflow: hidden;
+}
+
+body {
+  @include radial-gradient($col1: rgba(2,21,116,1), $col2: rgba(0,0,0,1));
+  * { box-sizing: border-box; }
+}
+
+%fillpage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+%remborder {
+  @include border-radius(1rem);
+}
+
+button {
+  @include transition();
+  @extend %remborder;
+  padding: .75rem 1rem;
+  cursor: pointer;
+  &#timer,
+  &#alarm {
+    @include box-shadow( $ver: .2rem, $blur: .4rem, $color: rgba(0,0,0,.5) );
+    width: 5rem;
+    height: 5rem;
+    margin: .5rem 1rem;
+    font-size: 1rem;
+    &:hover {
+      @include box-shadow( $ver: .2rem, $blur: .4rem, $color: rgba(0,0,0,.8) );
+    }
+  }
+  &#timer {
+    background-color: lighten($cyan, 20%);
+    border: 1px solid darken($cyan, 20%);
+    color: darken($cyan, 30%);
+    &:hover {
+      background-color: lighten($cyan, 30%);
+      border-color: $yellow;
+      color: #000;
+    }
+    img {
+      height: 2rem;
+    }
+  }
+  &#alarm {
+    background-color: lighten($yellow, 20%);
+    border: 1px solid darken($yellow, 20%);
+    color: darken($yellow, 30%);
+    &:hover {
+      background-color: lighten($yellow, 30%);
+      border-color: $yellow;
+      color: #000;
+    }
+    img {
+      height: 1.8rem;
+    }
+  }
+  &#cancel {
+    background-color: transparent;
+    border: none;
+    color: #800;
+    font-size: 1rem;
+    &:hover {
+      color: #f00;
+    }
+  }
+}
+
+div#background {
+  @extend %fillpage;
+  @include transition($prop: opacity, $dur: 5s);
+  opacity: .3;
+  z-index: 0;
+  &.loading {
+    opacity: 0;
+  }
+  img {
+    @extend %fillpage;
+    opacity: 1;
+    filter: saturate(0.4);
+    object-fit: cover;
+    z-index: 1;
+  }
+}
+
+main {
+  @extend %fillpage;
+  display: flex;
+  padding: 10vh 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+div#clock {
+  position: absolute;
+  top: 0;
+  padding: 1rem;
+  font-size: 2rem;
+  color: rgba(255,255,255,.4);
+  span:not(#second) {
+    color: rgba(255,255,255,.8);
+  }
+  span#second {
+    margin-left: .5rem;
+    font-size: .8rem;
+  }
+}
+
+div#title {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  h1[title] {
+    position: relative;
+    margin: 0 0 3rem 0;
+    font-size: 8rem;
+    &::before,
+    &::after {
+      content: attr(title);
+      position: absolute;
+      z-index: -1;
+      opacity: .6;
+    }
+    &::before {
+      top: -.2rem;
+      left: -.2rem;
+      color: $cyan;
+    }
+    &::after {
+      top: .2rem;
+      left: .2rem;
+      color: $magenta;
+    }
+  }
+  div#switch {
+    @include border-radius(4rem);
+    position: absolute;
+    bottom: 0;
+    width: 8rem;
+    height: 4rem;
+    overflow: hidden;
+    cursor: pointer;
+    span {
+      float: left;
+      width: 50%;
+      height: 100%;
+      padding: 1.3rem 0;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: bold;
+      &.off {
+        margin-right: 0;
+        background-color: #af1919;
+        border-color: lighten(#af1919, 20%);
+      }
+      &.on {
+        margin-left: 0;
+        background-color: #1faf1f;
+        border-color: lighten(#1faf1f, 20%);
+      }
+    }
+    div.mask {
+      @include transition($prop: left);
+      position: absolute;
+      top: -50%;
+      left: -125%;
+      width: 200%;
+    }
+    &.off {
+      div.mask {
+        left: -75%;
+      }
+    }
+    &.on {
+      div.mask {
+        left: -25%;
+      }
+    }
+  }
+}
+
+div#rules {
+  width: 29rem;
+  ol {
+    li {
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      text-shadow: 0 .1rem .1rem rgba(0,0,0,1);
+      span {
+        display: inline-block;
+        margin: .5rem 0;
+        font-size: .8rem;
+        font-style: italic;
+        color: rgba(255,255,255,.7);
+        strong {
+          color: #fff;
+        }
+      }
+      ul {
+        li {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+div#date {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  p {
+    margin: 0;
+    &:last-of-type {
+      opacity: .6;
+    }
+  }
+}
+
+div.disclaimer {
+  position: absolute;
+  bottom: 0;
+  margin: 2rem 0;
+  color: red;
+  font-weight: bold;
+  text-shadow: 0 0 .3rem rgba(255,255,255,.6);
+  text-align: center;
+}
+
+div#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,.8);
+  justify-content: center;
+  align-items: center;
+  div.overlay-content {
+    @extend %remborder;
+    background-color: rgba(255,255,255,.8);
+    padding: 1rem;
+    color: #111;
+    text-align: center;
+    h2 {
+      margin-top: 0;
+    }
+  }
+}

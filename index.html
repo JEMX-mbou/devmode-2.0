@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>&lt;Devmode 2.0&gt;</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style/css/style.css">
+  </head>
+  <body>
+    <div id="background"></div>
+    <main>
+
+      <div id="clock">
+        <span id="hour"></span>:<span id="minute"></span><span id="second"></span>
+      </div>
+
+      <div id="title">
+
+        <h1 title="DEVMODE">DEVMODE</h1>
+
+        <div id="switch" class="off">
+          <span class="off">OFF</span>
+          <span class="on">ON</span>
+          <div class="mask">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            	 viewBox="0 0 1000 500" style="enable-background:new 0 0 1000 500;" xml:space="preserve">
+              <g id="mask">
+              	<path style="fill:#FFFFFF;" d="M0,0v500h1000V0H0z M500,350c-55.23,0-100-44.77-100-100s44.77-100,100-100s100,44.77,100,100
+              		S555.23,350,500,350z"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="rules">
+        <ol>
+          <li>Oortjes in en goede muziek aan.</li>
+          <li>Bezig met je <strong>eigen werk</strong> op je <strong>eigen scherm.</strong></li>
+          <li>Als iemand je aandacht wilt:<br>
+            <span>Onderstaande regels gelden voor <strong>studenten</strong> en <strong>docenten</strong>.</span>
+            <ul>
+              <li>Moet diegene je op de schouders tikken.</li>
+              <li>Moet diegene even wachten tot je klaar bent met typen.</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <div id="date">
+        <p>
+          <span id="day"></span>
+          <span id="date"></span>
+        </p>
+        <p>
+          <span id="week"></span>
+          <span id="year"></span>
+        </p>
+      </div>
+
+      <div id="overlay">
+        <div class="overlay-content">
+          <h2>Would you like to set<br>a timer or an alarm?</h2>
+          <button id="timer"><img src="images/timer.svg" />Timer</button>
+          <button id="alarm"><img src="images/alarm.svg" />Alarm</button><br>
+          <button id="cancel">Cancel</button>
+        </div>
+      </div>
+    </main>
+    <script src="scripts/moment.min.js" type="text/javascript"></script>
+    <script src="scripts/bgchanger.js" type="text/javascript"></script>
+    <script src="scripts/datetime.js" type="text/javascript"></script>
+    <script src="scripts/main.js" type="text/javascript"></script>
+  </body>
+</html>

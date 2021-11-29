@@ -1,0 +1,199 @@
+@mixin border-radius( $rad ) {
+  -webkit-border-radius: $rad;
+  border-radius: $rad;
+}
+
+@mixin box-shadow( $hor: 0, $ver: 0, $blur: 0, $dis: 0, $color: rgba( 0, 0, 0, 0.1 ) ) {
+  -webkit-box-shadow: $hor $ver $blur $dis $color;
+  box-shadow: $hor $ver $blur $dis $color;
+}
+
+@mixin inset-box-shadow( $hor: 0, $ver: 0, $blur: 0, $dis: 0, $color: rgba( 0, 0, 0, 0.1 ) ) {
+  -webkit-box-shadow: inset $hor $ver $blur $dis $color;
+  box-shadow: inset $hor $ver $blur $dis $color;
+}
+
+@mixin text-shadow( $hor: 0, $ver: 0, $blur: 0, $color: rgba( 0, 0, 0, 0.1 ) ) {
+  text-shadow: $hor $ver $blur $color;
+}
+
+@mixin multiple-columns( $col, $gap) {
+  -moz-column-count: $col;
+  -webkit-column-count: $col;
+  column-count: $col;
+  -moz-column-gap: $gap;
+  -webkit-column-gap: $gap;
+  column-gap: $gap;
+}
+
+@mixin transition( $prop: all, $dur: 0.5s, $ease: ease, $delay: 0s) {
+  -webkit-transition: $prop $dur $ease;
+  -moz-transition: $prop $dur $ease;
+  -ms-transition: $prop $dur $ease;
+  -o-transition: $prop $dur $ease;
+  transition: $prop $dur $ease;
+}
+
+@mixin scale( $val ) {
+  -moz-transform: scale( $val );
+  -webkit-transform: scale( $val );
+  -o-transform: scale( $val );
+  -ms-transform: scale( $val );
+  transform: scale( $val );
+}
+
+@mixin rotate( $deg ) {
+  -moz-transform: rotate( $deg );
+  -webkit-transform: rotate( $deg );
+  -o-transform: rotate( $deg );
+  -ms-transform: rotate( $deg );
+  transform: rotate( $deg );
+}
+
+@mixin translateX( $val ) {
+  -moz-transform: translateX( $val );
+  -webkit-transform: translateX( $val );
+  -o-transform: translateX( $val );
+  -ms-transform: translateX( $val );
+  transform: translateX( $val );
+}
+
+@mixin translateY( $val ) {
+  -moz-transform: translateY( $val );
+  -webkit-transform: translateY( $val );
+  -o-transform: translateY( $val );
+  -ms-transform: translateY( $val );
+  transform: translateY( $val );
+}
+
+@mixin skewX( $deg ) {
+  -moz-transform: skewX( $deg );
+  -webkit-transform: skewX( $deg );
+  -o-transform: skewX( $deg );
+  -ms-transform: skewX( $deg );
+  transform: skewX( $deg );
+}
+
+@mixin skewY( $deg ) {
+  -moz-transform: skewY( $deg );
+  -webkit-transform: skewY( $deg );
+  -o-transform: skewY( $deg );
+  -ms-transform: skewY( $deg );
+  transform: skewY( $deg );
+}
+
+@mixin custom-transform( $val ) {
+  -moz-transform: $val;
+  -webkit-transform: $val;
+  -o-transform: $val;
+  -ms-transform: $val;
+  transform: $val;
+}
+
+@mixin vertical-gradient( $col1: rgba( 0, 0, 0, 0 ), $col2: rgba( 0, 0, 0, 0 ) ) {
+  background: $col1; /* Old browsers */
+  background: -moz-linear-gradient(top,  $col1 0%, $col2 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  $col1 0%,$col2 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  $col1 0%,$col2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$col1', endColorstr='$col2',GradientType=0 ); /* IE6-9 */
+}
+
+@mixin horizontal-gradient( $col1: rgba( 0, 0, 0, 0 ), $col2: rgba( 0, 0, 0, 0 ) ) {
+  background: $col1; /* Old browsers */
+  background: -moz-linear-gradient(left,  $col1 0%, $col2 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left,  $col1 0%,$col2 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right,  $col1 0%,$col2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$col1', endColorstr='$col2',GradientType=1 ); /* IE6-9 */
+}
+
+@mixin diagonal-gradient( $deg: 0deg, $col1: rgba(0,0,0,0), $pos1: 0%, $col2: rgba(0,0,0,0), $pos2: 100%) {
+  background: $col1; /* Old browsers */
+  background: -moz-linear-gradient($deg, $col1 $pos1, $col2 $pos2); /* FF3.6-15 */
+  background: -webkit-linear-gradient($deg, $col1 $pos1, $col2 $pos2); /* Chrome10-25,Safari5.1-6 */
+}
+
+@mixin radial-gradient($col1: rgba(0,0,0,0), $col2: rgba(0,0,0,0)) {
+  background: $col1;
+  background: -moz-radial-gradient(circle, $col1 0%, $col2 100%);
+  background: -webkit-radial-gradient(circle, $col1 0%, $col2 100%);
+  background: radial-gradient(circle, $col1 0%, $col2 100%);
+}
+
+@mixin custom-infinite-animation( $name, $dur, $del: 0s ) {
+  -webkit-animation: $name $dur infinite $del;
+  -moz-animation:    $name $dur infinite $del;
+  -o-animation:      $name $dur infinite $del;
+  animation:         $name $dur infinite $del;
+}
+
+@mixin nice-scrollbar-small( $col1, $col2 ) {
+  &::-webkit-scrollbar-track {
+    @include inset-box-shadow( $blur: 6px );
+    @include border-radius( 10px );
+    background-color: $col1;
+  }
+  &::-webkit-scrollbar {
+    width: 7px;
+    background-color: #F5F5F5;
+  }
+  &::-webkit-scrollbar-thumb {
+    @include border-radius( 10px );
+    background-color: $col2;
+  }
+}
+
+@mixin nice-scrollbar-normal( $col1, $col2 ) {
+  &::-webkit-scrollbar-track {
+    @include inset-box-shadow( $blur: 6px );
+    @include border-radius( 10px );
+    background-color: $black2;
+  }
+  &::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+  }
+  &::-webkit-scrollbar-thumb {
+    @include border-radius( 10px );
+    background-color: $col2;
+  }
+}
+
+%allcenter {
+  @include custom-transform( translateX( -50% ) translateY( -50% ) );
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+%horcenter {
+  @include translateX( -50% );
+  position: absolute;
+  left: 50%;
+}
+
+%vercenter {
+  @include translateY( -50% );
+  position: absolute;
+  top: 50%;
+}
+
+%button-transition { @include transition( $prop: all, $dur: 0.25s, $ease: cubic-bezier( 0.9, 0.46, 0.47, 0.87 ) ); }
+%short-transition { @include transition( $prop: all, $dur: 0.3s, $ease: ease ); }
+
+@mixin custom-animation( $name, $dur, $i ) {
+  -webkit-animation: $name $dur $i;
+  -moz-animation: $name $dur $i;
+  -o-animation: $name $dur $i;
+  animation: $name $dur $i;
+}
+
+%button-exit-animation{	@include custom-animation( BUTTON-EXIT-ANIMATION, .5s, 1 ); }
+%button-enter-animation{ @include custom-animation( BUTTON-ENTER-ANIMATION, .5s, 1 ); }
+
+%form-exit-animation{ @include custom-animation( FORM-EXIT-ANIMATION, .5s, 1 ); }
+%form-enter-animation{ @include custom-animation( FORM-ENTER-ANIMATION, .5s, 1 ); }
+
+%background-enter-animation{ @include custom-animation( BACKGROUND-ENTER-ANIMATION, .5s, 1 ); }
+%background-exit-animation{ @include custom-animation( BACKGROUND-EXIT-ANIMATION, .5s, 1 ); }
+
+%blink-animation { @include custom-animation( BLINK-ANIMATION, .5s, step-end infinite ); }
