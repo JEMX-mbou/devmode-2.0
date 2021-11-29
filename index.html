@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" href="style/css/style.css">
   </head>
   <body>
@@ -65,13 +67,25 @@
 
       <div id="overlay">
         <div class="overlay-content">
-          <h2>Would you like to set<br>a timer or an alarm?</h2>
-          <button id="timer"><img src="images/timer.svg" />Timer</button>
-          <button id="alarm"><img src="images/alarm.svg" />Alarm</button><br>
-          <button id="cancel">Cancel</button>
+          <h2>DEVMODE<br>options</h2>
+          <p>
+            <label for="assignment">
+              Opdracht
+              <input type="text" id="assignment" name="assignment" placeholder="Opdracht 1: ..." />
+            </label>
+          <p>
+            <button id="timer"><i class="fa fa-stopwatch" ></i>Timer</button>
+            <button id="alarm"><i class="fa fa-bell" ></i>Alarm</button>
+          </p>
+          <p>
+            <button id="cancel" class="close_overlay">Cancel</button>
+          </p>
         </div>
+        <div class="close_overlay"><i class="fa fa-times"></i></div>
       </div>
     </main>
+
+    <div id="loading"><i class="fa fa-spinner"></i></div>
     <script src="scripts/moment.min.js" type="text/javascript"></script>
     <script src="scripts/bgchanger.js" type="text/javascript"></script>
     <script src="scripts/datetime.js" type="text/javascript"></script>

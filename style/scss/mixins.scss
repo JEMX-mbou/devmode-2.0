@@ -126,6 +126,19 @@
   animation:         $name $dur infinite $del;
 }
 
+@keyframes rotating {
+  from {
+    @include rotate(0deg);
+  } to {
+    @include rotate(360deg);
+  }
+}
+
+%rotating,
+.rotating {
+  @include custom-infinite-animation(rotating, $dur: 1s);
+}
+
 @mixin nice-scrollbar-small( $col1, $col2 ) {
   &::-webkit-scrollbar-track {
     @include inset-box-shadow( $blur: 6px );

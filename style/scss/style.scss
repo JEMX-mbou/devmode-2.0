@@ -16,11 +16,6 @@ body {
   overflow: hidden;
 }
 
-body {
-  @include radial-gradient($col1: rgba(2,21,116,1), $col2: rgba(0,0,0,1));
-  * { box-sizing: border-box; }
-}
-
 %fillpage {
   position: fixed;
   top: 0;
@@ -29,13 +24,41 @@ body {
   height: 100vh;
 }
 
-%remborder {
-  @include border-radius(1rem);
+body {
+  @include transition($prop: background-color);
+  background-color: #000;
+  * { box-sizing: border-box; }
+  > main {
+    @include transition($prop: opacity);
+    opacity: 0;
+  }
+  div#loading {
+    @include transition($dur: 1s);
+    @extend %fillpage;
+    display: flex;
+    font-size: 2rem;
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    i {
+      @extend %rotating;
+    }
+  }
+  &.loaded {
+    @include radial-gradient($col1: rgba(2,21,116,1), $col2: rgba(0,0,0,1));
+    > main {
+      opacity: 1;
+    }
+    div#loading {
+      opacity: 0;
+    }
+  }
 }
 
 button {
   @include transition();
-  @extend %remborder;
+  @include border-radius(.5rem);
   padding: .75rem 1rem;
   cursor: pointer;
   &#timer,
@@ -44,35 +67,13 @@ button {
     width: 5rem;
     height: 5rem;
     margin: .5rem 1rem;
+    color: #333;
+    border: 1px solid #333;
     font-size: 1rem;
     &:hover {
-      @include box-shadow( $ver: .2rem, $blur: .4rem, $color: rgba(0,0,0,.8) );
-    }
-  }
-  &#timer {
-    background-color: lighten($cyan, 20%);
-    border: 1px solid darken($cyan, 20%);
-    color: darken($cyan, 30%);
-    &:hover {
-      background-color: lighten($cyan, 30%);
-      border-color: $yellow;
-      color: #000;
-    }
-    img {
-      height: 2rem;
-    }
-  }
-  &#alarm {
-    background-color: lighten($yellow, 20%);
-    border: 1px solid darken($yellow, 20%);
-    color: darken($yellow, 30%);
-    &:hover {
-      background-color: lighten($yellow, 30%);
-      border-color: $yellow;
-      color: #000;
-    }
-    img {
-      height: 1.8rem;
+      @include box-shadow( $ver: .3rem, $blur: .5rem, $color: rgba(0,0,0,.7) );
+      background-color: darken($cyan, 10%);
+      border-color: #fff;
     }
   }
   &#cancel {
@@ -250,8 +251,9 @@ div.disclaimer {
 }
 
 div#overlay {
+  @include transition();
   position: fixed;
-  top: 0;
+  top: -100%;
   left: 0;
   display: flex;
   width: 100vw;
@@ -259,14 +261,40 @@ div#overlay {
   background-color: rgba(0,0,0,.8);
   justify-content: center;
   align-items: center;
+  &.active {
+    top: 0;
+  }
   div.overlay-content {
-    @extend %remborder;
+    @include border-radius(1rem);
     background-color: rgba(255,255,255,.8);
     padding: 1rem;
     color: #111;
     text-align: center;
     h2 {
       margin-top: 0;
+    }
+    label {
+      input {
+        @include border-radius(.5rem);
+        width: 100%;
+        padding: .5rem 1rem;
+        margin-top: 1rem;
+        border: 1px solid #aaa;
+        font-size: 1.2rem;
+      }
+    }
+  }
+  div.close_overlay {
+    @include transition();
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    font-size: 1.5rem;
+    color: rgba(255,255,255,.5);
+    cursor: pointer;
+    &:hover {
+      color: #fff;
     }
   }
 }

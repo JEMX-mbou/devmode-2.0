@@ -56,6 +56,8 @@ class BgChanger {
     setTimeout(function(){
         bgEl.innerHTML = imgEl;
         bgEl.classList.remove('loading');
+
+        if (imgSrc.includes('bg1')) { bodyLoaded(); }
     }, 3000);
 
   }
