@@ -6,10 +6,11 @@ class BgChanger {
     this.loadImage('bg1');
 
     // Background Iterator
-    var bgI = 1;
+    let bgI = 1,
+        obj = this;
 
     // Interval function to cycle through the background images.
-    setInterval(function(){
+    setInterval(function() {
 
       // At the moment there are only 6 background
       // Hence the if statement below.
@@ -18,7 +19,7 @@ class BgChanger {
 
       // loadImage function is fired.
       // Background iterator is used to change background.
-      this.loadImage( 'bg' + bgI );
+      obj.loadImage( 'bg' + bgI );
 
     }, 300000 );
   }

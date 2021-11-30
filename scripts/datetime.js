@@ -42,6 +42,10 @@ class Datetime {
             };
   }
 
+  setDateTime(val, dt, key) {
+    this.dateTime[dt][key] = val;
+  }
+
   // setDateEl method
   // @param Obj date
   // Sets the HTML date elements.
@@ -76,13 +80,14 @@ class Datetime {
   // setTimeEl method
   // @param Obj time
   // Sets the HTML time elements.
-  setTimeEl( key, val )
+  setTimeEl( key, val, input = false )
   {
     // Setting value with leading zero
     let _v = ( val < 10 ? '0'+val : val);
 
     // Changing innerHTML of time element
-    document.querySelector('span#'+key).innerHTML = _v;
+    if (!input) document.querySelector('span#'+key).innerHTML = _v;
+    else document.querySelector('input#'+key).value = _v;
   }
 
   // updateTime method
@@ -126,7 +131,67 @@ class Datetime {
 
         obj.setTimeEl('hour', _t.h);
         obj.getDateTime();
+        obj.setDateEl();
       }
+      obj.setDateTime(_t.s, 'time', 's');
+      obj.setDateTime(_t.m, 'time', 'm');
+      obj.setDateTime(_t.h, 'time', 'h');
     }, 1000);
+  }
+
+  inputHandler( type ) {
+    let tiEl = document.querySelector('div#time-input'),
+        bEl = document.querySelector('button#'+type);
+
+    tiEl.classList.add(type);
+    bEl.classList.add('active');
+
+    if (type == 'timer') {
+      tiEl.classList.remove('alarm');
+      document.querySelector('button#alarm').classList.remove('active');
+
+      this.setTimeEl( 'hour', 0, true );
+      this.setTimeEl( 'minute', 0, true );
+    } else if (type == 'alarm') {
+      tiEl.classList.remove('timer');
+      document.querySelector('button#timer').classList.remove('active');
+
+      this.setTimeEl( 'hour', this.dateTime.time.h, true );
+      this.setTimeEl( 'minute', this.dateTime.time.m, true );
+    }
+  }
+
+  timeInputCounter() {
+    console.log(this.dateTime);
+    let hourEl = document.querySelector('input#hour'),
+        hours = parseInt(hourEl.value),
+        minEl = document.querySelector('input#minute'),
+        minutes = parseInt(minEl.value);
+
+    if (minutes > 59 && hours < 23) {
+      hours++;
+      minutes = 0;
+    } else if (minutes < 0 && hours > 0) {
+      hours--;
+      minutes = 59;
+    }
+
+    hourEl.value = (hours < 10 ? '0' + hours : hours);
+    minEl.value = (minutes < 10 ? '0' + minutes : minutes);
+
+  }
+
+  addTimer() {
+    let timerEL = document.querySelector('button#timer');
+
+    this.setTimeEl( 'hour', 0, true );
+    this.setTimeEl( 'minute', 0, true );
+  }
+
+  addAlarm() {
+    let alarmEl = document.querySelector('button#alarm');
+
+    this.setTimeEl( 'hour', this.dateTime.time.h, true );
+    this.setTimeEl( 'minute', this.dateTime.time.m, true );
   }
 }

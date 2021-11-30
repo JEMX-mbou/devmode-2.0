@@ -2,7 +2,7 @@ document.onload = loaded();
 
 function loaded() {
   // Start of the datetime clock.
-  new Datetime();
+  let dt = new Datetime();
   new BgChanger();
 
   let switchEl = document.querySelector('div#switch');
@@ -16,6 +16,24 @@ function loaded() {
   let closeOl = document.querySelectorAll('.close_overlay');
   closeOl.forEach(function(element) {
     element.addEventListener('click', function() { close_overlay(); });
+  });
+
+  let timerEL = document.querySelector('button#timer'),
+      alarmEl = document.querySelector('button#alarm');
+  timerEL.addEventListener('click', function() { dt.inputHandler('timer'); });
+  alarmEl.addEventListener('click', function() { dt.inputHandler('alarm'); });
+
+  let timeInput = document.querySelectorAll('div#time-input input');
+  timeInput.forEach(function(element) {
+    element.addEventListener('input', function(element) { dt.timeInputCounter(  ) });
+  });
+
+  let assignmentInput = document.querySelector('input#assignment'),
+      assignmentEl = document.querySelector('aside#assignment-container'),
+      assignmentTitle = assignmentEl.querySelector('h2');
+  assignmentInput.addEventListener('input', function() {
+    assignmentTitle.innerHTML = assignmentInput.value;
+    if (!assignmentEl.classList.contains('visible')) assignmentEl.classList.add('visible');
   });
 }
 
@@ -34,11 +52,13 @@ function bodyLoaded() {
 }
 
 function turnSwitch() {
-  let switchEl = document.querySelector('div#switch');
+  let switchEl = document.querySelector('div#switch'),
+      assignmentEl = document.querySelector('aside#assignment-container');
 
   if (switchEl.classList.contains('on')) {
     switchEl.classList.remove('on');
     switchEl.classList.add('off');
+    assignmentEl.classList.remove('visible');
   } else if (switchEl.classList.contains('off')) {
     switchEl.classList.add('on');
     switchEl.classList.remove('off');
