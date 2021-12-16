@@ -3,6 +3,8 @@
 $cyan: #0ff;
 $magenta: #f0f;
 $yellow: #ff0;
+$green: #1faf1f;
+$red: #af1919;
 
 html,
 body {
@@ -24,6 +26,22 @@ body {
   height: 100vh;
 }
 
+%timefont {
+  font-family: 'digital7', monospace;
+}
+
+%close_button {
+  @include transition();
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+%hidden, .hidden { display: none; }
+
 body {
   @include transition($prop: background-color);
   display: flex;
@@ -31,10 +49,6 @@ body {
   justify-content: center;
   align-items: center;
   * { box-sizing: border-box; }
-  > main,
-  > aside {
-    opacity: 0;
-  }
   div#loading {
     @include transition($dur: 1s);
     @extend %fillpage;
@@ -50,7 +64,7 @@ body {
   }
   &.loaded {
     @include radial-gradient($col1: rgba(2,21,116,1), $col2: rgba(0,0,0,1));
-    > main {
+    > div#clock, main, div#date {
       opacity: 1;
     }
     div#loading {
@@ -61,33 +75,44 @@ body {
 
 button {
   @include transition();
-  @include border-radius(.5rem);
+  @include border-radius(.2rem);
   padding: .75rem 1rem;
   cursor: pointer;
+  &#timer { @include border-radius( .2rem 0 0 .2rem ); }
+  &#alarm { @include border-radius( 0 .2rem .2rem 0 ); }
   &#timer,
   &#alarm {
-    @include box-shadow( $ver: .2rem, $blur: .4rem, $color: rgba(0,0,0,.5) );
-    width: 5rem;
-    height: 5rem;
-    margin: .5rem 1rem;
-    color: #333;
-    border: 1px solid #333;
+    display: inline-flex;
+    width: 7rem;
+    height: 2.8rem;
+    color: #888;
+    border: 1px solid #888;
     font-size: 1rem;
     &:hover {
-      @include box-shadow( $ver: .3rem, $blur: .5rem, $color: rgba(0,0,0,.7) );
-      background-color: darken($cyan, 10%);
-      border-color: #fff;
+      color: #333;
+      border-color: #333;
     }
     &.active {
-      @include box-shadow( $ver: .3rem, $blur: .5rem, $color: darken($magenta,20%) );
-      background-color: darken($magenta, 10%);
-      border-color: $magenta;
+      background-color: darken($cyan, 10%);
+      color: #fff;
+    }
+    i {
+      margin-right: 1rem;
+    }
+  }
+  &#save {
+    background-color: $green;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    &:hover {
+      background-color: lighten($green, 10%);
     }
   }
   &#cancel {
     background-color: transparent;
     border: none;
-    color: #800;
+    color: $red;
     font-size: 1rem;
     &:hover {
       color: #f00;
@@ -113,19 +138,22 @@ div#background {
 }
 
 main {
-  @include transition($prop: opacity);
+  @include transition($prop: opacity, $dur: 2s, $delay: 1s);
   display: flex;
   width: 65vw;
   height: 100%;
   padding: 10vh 0;
+  opacity: 0;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 }
+
 aside {
   @include transition();
   width: 0vw;
   padding: 1rem;
+  opacity: 0;
   color: #333;
   align-items: center;
   overflow: hidden;
@@ -136,25 +164,61 @@ aside {
   }
   div.content {
     @include border-radius(1rem);
+    display: flex;
     width: calc(35vw - 2rem);
     padding: 1rem;
     background-color: rgba(255,255,255,.8);
+    flex-direction: column;
+    align-items: flex-start;
     h2 {
-      margin-top: 0;
+      width: 100%;
+      margin: 0;
     }
     div {
       font-weight: bold;
       color: #555;
+      &#ta-container {
+        @extend %timefont;
+        @include transition($delay: 1s);
+        display: flex;
+        height: 0;
+        padding: 0 .5rem;
+        margin: .5rem 0;
+        background-color: #000;
+        justify-content: space-between;
+        overflow: hidden;
+        &.active {
+          height: 2rem;
+          padding: .5rem;
+        }
+        span {
+          color: red;
+          &.ta-type {
+            margin-right: 1rem;
+          }
+          &.ta-minute,
+          &.ta-second {
+            position: relative;
+            &:before {
+              content: ':';
+            }
+          }
+        }
+      }
     }
   }
 }
 
 div#clock {
+  @extend %timefont;
+  @include transition($prop: opacity, $dur: 1s, $delay: .5s);
   position: absolute;
   top: 0;
   padding: 1rem;
+  opacity: 0;
   font-size: 2rem;
   color: rgba(255,255,255,.4);
+  z-index: 1;
   span:not(#second) {
     color: rgba(255,255,255,.8);
   }
@@ -208,13 +272,13 @@ div#title {
       font-weight: bold;
       &.off {
         margin-right: 0;
-        background-color: #af1919;
-        border-color: lighten(#af1919, 20%);
+        background-color: $red;
+        border-color: lighten($red, 20%);
       }
       &.on {
         margin-left: 0;
-        background-color: #1faf1f;
-        border-color: lighten(#1faf1f, 20%);
+        background-color: $green;
+        border-color: lighten($green, 20%);
       }
     }
     div.mask {
@@ -264,12 +328,20 @@ div#rules {
 }
 
 div#date {
+  @extend %timefont;
+  @include transition($prop: opacity, $delay: .5s);
   position: absolute;
   bottom: 0;
   left: 0;
   padding: 1rem;
+  opacity: 0;
+  z-index: 1;
   p {
     margin: 0;
+    span {
+      &:first-of-type { float: left; padding-right: .5rem; }
+      &:last-of-type { float: right; padding-left: .5rem; }
+    }
     &:last-of-type {
       opacity: .6;
     }
@@ -301,51 +373,101 @@ div#overlay {
     top: 0;
   }
   div.overlay-content {
-    @include border-radius(1rem);
+    @include border-radius(.2rem);
     background-color: rgba(255,255,255,.8);
     padding: 1rem;
     color: #111;
-    text-align: center;
+    z-index: 2;
     h2 {
       margin-top: 0;
     }
+    div {
+      &.ta-input {
+        display: flex;
+        margin: 1rem 0;
+        align-items: flex-end;
+      }
+      &.save-cancel {
+        text-align: right;
+      }
+    }
     label {
-      input {
-        @include border-radius(.5rem);
+      input,
+      textarea {
+        @include border-radius(.2rem);
+        min-height: 2.8rem;
         padding: .5rem 1rem;
         border: 1px solid #aaa;
         font-size: 1.2rem;
-        &#assignment {
+        &#assignment,
+        &#information {
+          display: flex;
           width: 100%;
-          margin-top: 1rem;
         }
+        &#information {
+          resize: vertical;
+        }
+      }
+      &[for="assignment"],
+      &[for="information"] {
+        padding: 0 .5rem;
       }
     }
     div#time-input {
       display: flex;
+      margin-left: 1rem;
       justify-content: center;
+      &.disabled {
+        opacity: .6;
+      }
       label {
         display: flex;
-        padding: 0 .5rem;
+        text-align: center;
         flex-direction: column;
         input {
+          @extend %timefont;
           width: 7rem;
+          padding-right: .3rem;
+          background-color: #333;
+          color: $red;
+          font-size: 1.7rem;
           text-align: center;
+        }
+        &:first-of-type input {
+          @include border-radius(.2rem 0 0 .2rem);
+        }
+        &:last-of-type input {
+          @include border-radius(0 .2rem .2rem 0);
         }
       }
     }
   }
-  div.close_overlay {
-    @include transition();
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 1rem;
-    font-size: 1.5rem;
+  i.close_overlay {
+    @extend %close_button;
     color: rgba(255,255,255,.5);
-    cursor: pointer;
     &:hover {
       color: #fff;
+    }
+  }
+}
+
+div#end-devmode {
+  @extend %fillpage;
+  @include transition($prop: opacity, $dur: 3s);
+  display: none;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  color: #333;
+  opacity: 0;
+  &.visible {
+    opacity: 1;
+  }
+  i.close_end_overlay {
+    @extend %close_button;
+    color: rgba(0,0,0,.5);
+    &:hover {
+      color: #000;
     }
   }
 }

@@ -27,11 +27,11 @@
 }
 
 @mixin transition( $prop: all, $dur: 0.5s, $ease: ease, $delay: 0s) {
-  -webkit-transition: $prop $dur $ease;
-  -moz-transition: $prop $dur $ease;
-  -ms-transition: $prop $dur $ease;
-  -o-transition: $prop $dur $ease;
-  transition: $prop $dur $ease;
+  -webkit-transition: $prop $dur $ease $delay;
+  -moz-transition: $prop $dur $ease $delay;
+  -ms-transition: $prop $dur $ease $delay;
+  -o-transition: $prop $dur $ease $delay;
+  transition: $prop $dur $ease $delay;
 }
 
 @mixin scale( $val ) {

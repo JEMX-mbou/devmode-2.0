@@ -11,8 +11,8 @@ class Datetime {
     this.setTimeEl( 'minute', this.dateTime.time.m );
     this.setTimeEl( 'second', this.dateTime.time.s );
 
-    // Update dateTime Obj with updateTime method
-    this.updateTime();
+    // Ticker method is fired and will fire every second.
+    this.ticker();
 
     this.setDateEl( this.dateTime.date );
   }
@@ -56,10 +56,10 @@ class Datetime {
         monthArr = { 0: 'Januari', 1: 'Februari', 2: 'Maart', 3: 'April', 4: 'Mei', 5: 'Juni', 6: 'Juli', 7: 'Augustus', 8: 'September', 9: 'Oktober', 10: 'November', 11: 'December' };
 
     // Sets innerHTML of date elements
-    document.querySelector('span#week').innerHTML = this.spaceSplit('Week '+date.w);
-    document.querySelector('span#date').innerHTML = this.spaceSplit(date.d+' '+monthArr[date.m]);
-    document.querySelector('span#day').innerHTML = this.spaceSplit(dayArr[date.wd]);
-    document.querySelector('span#year').innerHTML = this.spaceSplit(date.y.toString());
+    document.querySelector('span#week').innerHTML = 'Week '+date.w;
+    document.querySelector('span#date').innerHTML = date.d+' '+monthArr[date.m];
+    document.querySelector('span#day').innerHTML = dayArr[date.wd];
+    document.querySelector('span#year').innerHTML = date.y.toString();
   }
 
   // spaceSplit method
@@ -80,63 +80,67 @@ class Datetime {
   // setTimeEl method
   // @param Obj time
   // Sets the HTML time elements.
-  setTimeEl( key, val, input = false )
-  {
+  setTimeEl( key, val, input = false ) {
     // Setting value with leading zero
     let _v = ( val < 10 ? '0'+val : val);
 
     // Changing innerHTML of time element
-    if (!input) document.querySelector('span#'+key).innerHTML = _v;
-    else document.querySelector('input#'+key).value = _v;
+    if (!input) {
+      document.querySelector('span#'+key).innerHTML = _v;
+    } else {
+      let inpEl = document.querySelector('input#'+key);
+      inpEl.value = _v;
+      inpEl.removeAttribute('disabled');
+    }
   }
 
-  // updateTime method
+  // ticker method
   // Interval of 1 second
   // Updates seconds, minutes and hours in that order.
-  updateTime()
-  {
-    // _t is the dateTime JSON
+  ticker() {
     // obj refers to the DateTime class
-    let _t = this.dateTime.time,
-        obj = this;
+    let obj = this;
 
     setInterval( function() {
-      // Adds an increment to the second counter.
-      _t.s++;
-      obj.setTimeEl('second', _t.s);
 
-      // If seconds exceed 59 seconds it resets to 0
-      // And an increment is added to minute counter.
-      if ( _t.s > 59 ) {
-        _t.s = 0;
-        _t.m++;
+      // updateTime function is executed;
+      obj.updateTime();
 
-        obj.setTimeEl('second', _t.s);
-        obj.setTimeEl('minute', _t.m);
-      }
+      // updateTimer function is executed
+      obj.updateTimer();
 
-      // If minutes exceed 59 seconds it resets to 0
-      // And an increment is added to hour counter.
-      if ( _t.m > 59 ) {
-        _t.m = 0;
-        _t.h++;
+      // updateAlarm function is executed
+      obj.updateAlarm();
 
-        obj.setTimeEl('minute', _t.m);
-        obj.setTimeEl('hour', _t.h);
-      }
-
-      // If hours exceed 23 seconds it resets to 0
-      if ( _t.h > 23 ) {
-        _t.h = 0;
-
-        obj.setTimeEl('hour', _t.h);
-        obj.getDateTime();
-        obj.setDateEl();
-      }
-      obj.setDateTime(_t.s, 'time', 's');
-      obj.setDateTime(_t.m, 'time', 'm');
-      obj.setDateTime(_t.h, 'time', 'h');
     }, 1000);
+  }
+
+  updateTime() {
+    let _t = this.dateTime.time;
+
+    _t.s++;
+
+    if (_t.s > 59) {
+      _t.s = 0;
+      _t.m++;
+    }
+
+    if (_t.m > 59) {
+      _t.m = 0;
+      _t.h++;
+    }
+
+    if (_t.h > 23) {
+      _t.h = 0;
+    }
+
+    this.setDateTime(_t.h, 'time', 'h');
+    this.setDateTime(_t.m, 'time', 'm');
+    this.setDateTime(_t.s, 'time', 's');
+
+    this.setTimeEl('hour', _t.h );
+    this.setTimeEl('minute', _t.m );
+    this.setTimeEl('second', _t.s );
   }
 
   inputHandler( type ) {
@@ -144,6 +148,7 @@ class Datetime {
         bEl = document.querySelector('button#'+type);
 
     tiEl.classList.add(type);
+    tiEl.classList.remove('disabled');
     bEl.classList.add('active');
 
     if (type == 'timer') {
@@ -162,7 +167,6 @@ class Datetime {
   }
 
   timeInputCounter() {
-    console.log(this.dateTime);
     let hourEl = document.querySelector('input#hour'),
         hours = parseInt(hourEl.value),
         minEl = document.querySelector('input#minute'),
@@ -178,20 +182,92 @@ class Datetime {
 
     hourEl.value = (hours < 10 ? '0' + hours : hours);
     minEl.value = (minutes < 10 ? '0' + minutes : minutes);
-
   }
 
-  addTimer() {
-    let timerEL = document.querySelector('button#timer');
+  addTimer( timeInput ) {
+    let hour = parseInt(timeInput[0].value),
+        minute = parseInt(timeInput[1].value),
+        seconds = (hour * 3600) + (minute * 60);
 
-    this.setTimeEl( 'hour', 0, true );
-    this.setTimeEl( 'minute', 0, true );
+    this.dateTime['timer'] = seconds;
+    this.dateTime['fullTimer'] = {'h': hour, 'm': minute, 's': 0};
   }
 
-  addAlarm() {
-    let alarmEl = document.querySelector('button#alarm');
+  updateTimer() {
+    if ( typeof this.dateTime.timer !== 'undefined' ) {
 
-    this.setTimeEl( 'hour', this.dateTime.time.h, true );
-    this.setTimeEl( 'minute', this.dateTime.time.m, true );
+      let _h = this.dateTime.fullTimer.h,
+          _m = this.dateTime.fullTimer.m,
+          _s = this.dateTime.fullTimer.s,
+          s = this.dateTime.timer;
+
+      if (s > 0) {
+
+        s--;
+
+        if (_s < 1 && _m > 0) {
+          _s = 59;
+          _m--;
+        } else {
+          _s--;
+        }
+
+        if (_m < 1 && _h > 0) {
+          _m = 59;
+          _h--;
+        }
+
+        this.setTAelement('Timer', _h, _m, _s);
+
+        this.dateTime['timer'] = s;
+        this.dateTime['fullTimer'] = {'h': _h, 'm': _m, 's': _s};
+      } else {
+        delete this.dateTime.timer;
+        delete this.dateTime.fullTimer;
+        openEndOverlay();
+        closeAssignment();
+      }
+    }
+  }
+
+  addAlarm( timeInput ) {
+    let hour = parseInt(timeInput[0].value),
+        minute = parseInt(timeInput[1].value);
+
+    this.dateTime['alarm'] = { 'h': hour, 'm': minute };
+    this.setTAelement('Alarm', hour, minute);
+  }
+
+  updateAlarm() {
+    if ( typeof this.dateTime.alarm !== 'undefined' ) {
+      let _h = this.dateTime.alarm.h,
+          _m = this.dateTime.alarm.m,
+          h = this.dateTime.time.h,
+          m = this.dateTime.time.m;
+
+      if (_h == h && _m == m) {
+        delete this.dateTime.alarm;
+
+        openEndOverlay();
+      }
+    }
+  }
+
+  setTAelement( type, hour, minute, second = null ) {
+    let typeEl = document.querySelector('span.ta-type'),
+        hourEl = document.querySelector('span.ta-hour'),
+        minuteEl = document.querySelector('span.ta-minute'),
+        secondEl = document.querySelector('span.ta-second');
+
+    typeEl.innerHTML = type+': ';
+    hourEl.innerHTML = (hour<10?'0'+hour:hour);
+    minuteEl.innerHTML = (minute<10?'0'+minute:minute);
+    if (second !== null) {
+      secondEl.innerHTML = (second<10?'0'+second:second);
+      secondEl.classList.remove('hidden');
+    } else {
+      secondEl.classList.add('hidden');
+    }
+    openAssignment();
   }
 }

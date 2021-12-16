@@ -10,20 +10,19 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <link rel="stylesheet" href="style/css/digital-7.css">
     <link rel="stylesheet" href="style/css/style.css">
   </head>
   <body>
     <div id="background"></div>
+
+    <div id="clock">
+      <span id="hour"></span>:<span id="minute"></span><span id="second"></span>
+    </div>
+
     <main>
-
-      <div id="clock">
-        <span id="hour"></span>:<span id="minute"></span><span id="second"></span>
-      </div>
-
       <div id="title">
-
         <h1 title="DEVMODE">DEVMODE</h1>
-
         <div id="switch" class="off">
           <span class="off">OFF</span>
           <span class="on">ON</span>
@@ -37,7 +36,6 @@
             </svg>
           </div>
         </div>
-
       </div>
 
       <div id="rules">
@@ -53,55 +51,74 @@
           </li>
         </ol>
       </div>
-
-      <div id="date">
-        <p>
-          <span id="day"></span>
-          <span id="date"></span>
-        </p>
-        <p>
-          <span id="week"></span>
-          <span id="year"></span>
-        </p>
-      </div>
-
     </main>
+
     <aside id="assignment-container" class="">
+      <i class="fa fa-chevron-left"></i>
       <div class="content">
-        <h2>Opdracht:</h2>
-        <div contenteditable="true" spellcheck="false">
+        <h2 contenteditable="true" spellcheck="false">Opdracht:</h2>
+        <div id="ta-container">
+          <span class="ta-type"></span>
+          <div class="time"><span class="ta-hour"></span><span class="ta-minute"></span><span class="ta-second"></span></div>
+        </div>
+        <div class="info" contenteditable="true" spellcheck="false">
           Voeg hier een beschrijving toe van de opdracht.
         </div>
       </div>
     </aside>
 
-    <div id="overlay">
+    <div id="date">
+      <p>
+        <span id="day"></span>
+        <span id="date"></span>
+      </p>
+      <p>
+        <span id="week"></span>
+        <span id="year"></span>
+      </p>
+    </div>
+
+    <div id="socials">
+
+    </div>
+
+    <div id="overlay" class="close_overlay">
       <div class="overlay-content">
-        <h2>DEVMODE<br>options</h2>
-        <p>
+        <div class="assignmentinput">
           <label for="assignment">
             Opdracht
             <input type="text" id="assignment" name="assignment" placeholder="Opdracht 1: ..." />
           </label>
-        <p>
+          <label for="information">
+            Omschrijving
+            <textarea id="information" placeholder="Voeg hier een beschrijving toe van de opdracht."></textarea>
+          </label>
+        </div>
+        <div class="ta-input">
           <button id="timer"><i class="fa fa-stopwatch"></i>Timer</button>
           <button id="alarm"><i class="fa fa-bell"></i>Alarm</button>
-          <div id="time-input">
+          <div id="time-input" class="disabled">
             <label for="hour">
               Hour
-              <input type="number" id="hour" min="0" max="23" step="1" value="00" />
+              <input type="number" id="hour" min="0" max="23" step="1" value="00" disabled/>
             </label>
             <label for="minute">
               Minute
-              <input type="number" id="minute" min="-1" max="60" step="1" value="00" />
+              <input type="number" id="minute" min="-1" max="60" step="1" value="00" disabled/>
             </label>
           </div>
-        </p>
-        <p>
+        </div>
+        <div class="save-cancel">
+          <button id="save">Save</button>
           <button id="cancel" class="close_overlay">Cancel</button>
-        </p>
+        </div>
       </div>
-      <div class="close_overlay"><i class="fa fa-times"></i></div>
+      <i class="fa fa-times close_overlay"></i>
+    </div>
+
+    <div id="end-devmode" class="close_end_overlay">
+      <h2>END of DEVMODE</h2>
+      <i class="fa fa-times close_end_overlay"></i>
     </div>
 
     <div id="loading"><i class="fa fa-spinner"></i></div>
