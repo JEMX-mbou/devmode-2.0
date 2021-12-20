@@ -1,11 +1,13 @@
 document.onload = loaded();
 
+// Start of the datetime clock. (src: datetime.js);
+dt = new Datetime();
+
 // loaded function.
 // Fires on document loaded.
 // Used for event listeners.
 function loaded() {
-  // Start of the datetime clock. (src: datetime.js);
-  let dt = new Datetime();
+
   // Start of background changer. (src: bgchanger.js);
   new BgChanger();
 
@@ -74,6 +76,23 @@ function loaded() {
     openAssignment();
   });
 
+  let openAside = document.querySelector('button#open_aside');
+  openAside.addEventListener('click', function() {
+    if (!openAside.classList.contains('turn')) {
+      openAside.classList.add('turn');
+      openAssignment();
+    } else {
+      openAside.classList.remove('turn');
+      closeAssignment();
+    }
+
+  });
+
+  let stopButton = document.querySelector('button#stop');
+  stopButton.addEventListener('click', function() {
+    dt.deleteTimerAlarm();
+  });
+
   // Click event on assignment input.
   // TODO: sets timer or alarm based on inputs.
   // If assignment input has been used aside element should be open otherwise close.
@@ -83,7 +102,10 @@ function loaded() {
         type = tiEl.classList[0],
         taEl = document.querySelector('div#ta-container');
 
-    if (type != 'disabled') taEl.classList.add('active');
+    if (type != 'disabled') {
+      taEl.classList.add('active');
+      openAssignment();
+    }
 
     if (type == 'timer') dt.addTimer( timeInput );
     else if (type == 'alarm') dt.addAlarm( timeInput );
@@ -121,6 +143,8 @@ function turnSwitch() {
     switchEl.classList.remove('on');
     switchEl.classList.add('off');
 
+    dt.deleteTimerAlarm();
+
     // Close assignment panel.
     closeAssignment();
 
@@ -140,15 +164,19 @@ function turnSwitch() {
 // openAssignment function.
 // Opens assignment panel.
 function openAssignment() {
-  let assignmentEl = document.querySelector('aside#assignment-container');
+  let assignmentEl = document.querySelector('aside#assignment-container'),
+      openAside = document.querySelector('button#open_aside');
   assignmentEl.classList.add('visible');
+  openAside.classList.add('turn');
 }
 
 // closeAssignment function.
 // Closes assignment panel.
 function closeAssignment() {
-  let assignmentEl = document.querySelector('aside#assignment-container');
+  let assignmentEl = document.querySelector('aside#assignment-container'),
+      openAside = document.querySelector('button#open_aside');
   assignmentEl.classList.remove('visible');
+  openAside.classList.remove('turn');
 }
 
 // openOverlay function.

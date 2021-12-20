@@ -253,6 +253,15 @@ class Datetime {
     }
   }
 
+  deleteTimerAlarm() {
+    delete this.dateTime.timer;
+    delete this.dateTime.fullTimer;
+    delete this.dateTime.alarm;
+
+    let taEl = document.querySelector('div#ta-container');
+    taEl.classList.remove('active');
+  }
+
   setTAelement( type, hour, minute, second = null ) {
     let typeEl = document.querySelector('span.ta-type'),
         hourEl = document.querySelector('span.ta-hour'),
@@ -262,12 +271,12 @@ class Datetime {
     typeEl.innerHTML = type+': ';
     hourEl.innerHTML = (hour<10?'0'+hour:hour);
     minuteEl.innerHTML = (minute<10?'0'+minute:minute);
+
     if (second !== null) {
       secondEl.innerHTML = (second<10?'0'+second:second);
       secondEl.classList.remove('hidden');
     } else {
       secondEl.classList.add('hidden');
     }
-    openAssignment();
   }
 }

@@ -54,12 +54,15 @@
     </main>
 
     <aside id="assignment-container" class="">
-      <i class="fa fa-chevron-left"></i>
+      <button id="open_aside" class="fa fa-chevron-left"></button>
       <div class="content">
         <h2 contenteditable="true" spellcheck="false">Opdracht:</h2>
         <div id="ta-container">
-          <span class="ta-type"></span>
-          <div class="time"><span class="ta-hour"></span><span class="ta-minute"></span><span class="ta-second"></span></div>
+          <div class="timer-alarm">
+            <span class="ta-type"></span>
+            <div class="time"><span class="ta-hour"></span><span class="ta-minute"></span><span class="ta-second"></span></div>
+          </div>
+          <button id="stop"><i class="fa fa-power-off"></i>Stop</button>
         </div>
         <div class="info" contenteditable="true" spellcheck="false">
           Voeg hier een beschrijving toe van de opdracht.
@@ -79,7 +82,18 @@
     </div>
 
     <div id="socials">
-
+      <a class="social" target="_blank" href="spotify:https://open.spotify.com/playlist/2TSt28ml4Ok1QJuQMwHjs1?si=f4256957cde646f5">
+        <i class="fab fa-spotify" hover="#1DB954"></i>
+        <span>The New Groove</span>
+      </a>
+      <a class="social" target="_blank" href="spotify:https://open.spotify.com/">
+        <i class="fab fa-spotify"></i>
+        <span>Spotify</span>
+      </a>
+      <a class="social" target="_blank" href="https://youtube.com/">
+        <i class="fab fa-youtube"></i>
+        <span>YouTube</span>
+      </a>
     </div>
 
     <div id="overlay" class="close_overlay">
@@ -122,6 +136,8 @@
     </div>
 
     <div id="loading"><i class="fa fa-spinner"></i></div>
+
+    <div id="disclaimer">Uiteraard veel beter dan die van Taif, maar dat was al duidelijk. Dus vandaar dat deze tekst zo klein is. Net zoals Taif z'n ...</div>
     <script src="scripts/moment.min.js" type="text/javascript"></script>
     <script src="scripts/bgchanger.js" type="text/javascript"></script>
     <script src="scripts/datetime.js" type="text/javascript"></script>
